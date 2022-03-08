@@ -1,0 +1,7 @@
+# Key - Value  pliik p?aski z rozszerzeniem properti
+# Rozszerzenie YAML!
+spring:
+  h2:
+    console:
+      enabled: false
+
