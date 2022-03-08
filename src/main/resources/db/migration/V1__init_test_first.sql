@@ -6,7 +6,8 @@ EMAIL varchar (255),
 EVIDENCE_ID varchar (255),
 IS_ACTIVE bit,
 LOGIN varchar (255),
-PSW varchar (255)
+PSW varchar (255),
+LOGBOOK_ID varchar (255)
 );
 CREATE TABLE companies(
 ID varchar  primary key auto_increment,
@@ -28,4 +29,8 @@ COUNTRY varchar (255),
 NIP varchar (255),
 BRAND varchar (255),
 LOGO_URL varchar (255)
+);
+CREATE TABLE logbook(
+ID varchar  primary key auto_increment,
+LOG varchar (255)
 );

@@ -2,25 +2,23 @@ package com.example.demo.model;
 
 import com.example.demo.entity.UserEntity;
 
-import java.time.LocalDateTime;
 
 public class UserReadModel {
     private String company_id;
     private String login;
     private String email;
     private boolean isActive;
-    private LocalDateTime logger;
 
     public UserReadModel() {
 
     }
 
-    public UserReadModel (UserEntity source) {
+    public UserReadModel(UserEntity source) {
         this.company_id = source.getCompany_id();
         this.email = source.getEmail();
         this.isActive = source.isActive();
         this.login = source.getLogin();
-        this.logger = source.getLogger();
+
     }
 
     public String getCompany_id() {
@@ -55,11 +53,4 @@ public class UserReadModel {
         isActive = active;
     }
 
-    public LocalDateTime getLogger() {
-        return logger;
-    }
-
-    public void setLogger(LocalDateTime logger) {
-        this.logger = logger;
-    }
 }

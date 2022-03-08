@@ -1,9 +1,7 @@
 package com.example.demo.entity;
 
-import org.h2.engine.User;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -14,11 +12,15 @@ public class UserEntity extends BaseEditEntity {
     private String psw;
     private String email;
     private boolean isActive;
-    private LocalDateTime logger;
+    @OneToMany()
+    @JoinColumn(name = "logbook_id")
+    private Set<LogbookEntity> logbook;
+
 
     public UserEntity() {
     }
-   public UserEntity(String psw, String login, String email) {
+
+    public UserEntity(String psw, String login, String email) {
         this.login = login;
         this.psw = psw;
         this.email = email;
@@ -65,12 +67,12 @@ public class UserEntity extends BaseEditEntity {
         isActive = active;
     }
 
-    public LocalDateTime getLogger() {
-        return logger;
+    public Set<LogbookEntity> getLogbook() {
+        return logbook;
     }
 
-    public void setLogger(LocalDateTime logger) {
-        this.logger = logger;
+    public void setLogbook(Set<LogbookEntity> logger) {
+        this.logbook = logger;
     }
 
     public void updateFrom(final UserEntity source) {
@@ -78,7 +80,7 @@ public class UserEntity extends BaseEditEntity {
         this.psw = source.psw;
         this.isActive = source.isActive;
         this.login = source.login;
-        this.logger = source.logger;
+        this.logbook = source.logbook;
         this.company_id = source.company_id;
 
     }
