@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import com.example.demo.model.UserUpdateModel;
+import com.example.demo.model.UserWriteModel;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -35,7 +38,6 @@ public class UserEntity extends BaseEditEntity {
     }
 
     public String getLogin() {
-
         return login;
     }
 
@@ -75,13 +77,11 @@ public class UserEntity extends BaseEditEntity {
         this.logbook = logger;
     }
 
-    public void updateFrom(final UserEntity source) {
-        this.email = source.email;
-        this.psw = source.psw;
-        this.isActive = source.isActive;
-        this.login = source.login;
-        this.logbook = source.logbook;
-        this.company_id = source.company_id;
+    public void updateFrom(final UserUpdateModel source) {
+        this.company_id = source.getCompany_id();
+        this.email = source.getEmail();
+        this.login = source.getLogin();
+        this.isActive = source.isActive();
 
     }
 }

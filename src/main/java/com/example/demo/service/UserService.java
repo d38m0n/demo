@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.UserReadModel;
+import com.example.demo.model.UserUpdateModel;
 import com.example.demo.model.UserWriteModel;
-import com.example.demo.repository.EvidenceEntityRepository;
 import com.example.demo.repository.UserEntityRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,29 +15,29 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    private UserEntityRepository userEntityRepository;
+    private UserEntityRepository userRepo;
     private PasswordEncoder encoder;
 
 
-    public UserService(UserEntityRepository userEntityRepository, PasswordEncoder encoder) {
-        this.userEntityRepository = userEntityRepository;
+    public UserService(UserEntityRepository userRepo, PasswordEncoder encoder) {
+        this.userRepo = userRepo;
         this.encoder = encoder;
     }
 
     public UserEntity addNewUser(UserWriteModel source) {
         source.setPsw(encoder.encode(source.getPsw()));
-        return userEntityRepository
+        return userRepo
                 .save(source.getUserEntity());
     }
 
     public List<UserReadModel> findAllUsers() {
-        return userEntityRepository.findAll().stream()
+        return userRepo.findAll().stream()
                 .map(UserReadModel::new)
                 .collect(Collectors.toList());
     }
 
     public List<UserReadModel> findAllBySortedUsers(Pageable pageable) {
-        return userEntityRepository
+        return userRepo
                 .findAll(pageable)
                 .getContent()
                 .stream()
@@ -45,24 +45,21 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public boolean update(UserEntity userEntity) {
-        if (notFindUser(userEntity.getId())) return false;
-        userEntityRepository.findById(userEntity.getId())
+    public boolean update(UserUpdateModel source) {
+        if (!userRepo.existsById(source.getId())) return false;
+        userRepo.findById(source.getId())
                 .ifPresent(ue -> {
-                    ue.updateFrom(userEntity);
-                    userEntityRepository.save(ue);
+                    ue.updateFrom(source);
+                    userRepo.save(ue);
                 });
         return true;
     }
 
     public boolean delete(String idUser) {
-        if (notFindUser(idUser)) return false;
-        userEntityRepository.deleteById(idUser);
+        if (userRepo.existsById(idUser)) return false;
+        userRepo.deleteById(idUser);
         return true;
     }
 
-    private boolean notFindUser(String idUser) {
-        return !userEntityRepository.existsById(idUser);
-    }
 }
 

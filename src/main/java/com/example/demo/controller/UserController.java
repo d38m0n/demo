@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.UserReadModel;
+import com.example.demo.model.UserUpdateModel;
 import com.example.demo.model.UserWriteModel;
 import com.example.demo.service.UserService;
 import org.slf4j.Logger;
@@ -61,9 +62,9 @@ public class UserController {
     @RequestMapping(
             method = RequestMethod.PUT,
             path = "/users")
-    ResponseEntity<?> updateUser(@RequestBody @Valid UserEntity userEntity) {
-        if (userService.update(userEntity)) {
-            logger.info("User " + userEntity.getLogin() + " is update");
+    ResponseEntity<?> updateUser(@RequestBody @Valid UserUpdateModel source) {
+        if (userService.update(source)) {
+            logger.info("User " + source.getLogin() + " is update");
             return ResponseEntity
                     .noContent()
                     .build();

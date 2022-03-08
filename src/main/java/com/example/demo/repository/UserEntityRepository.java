@@ -9,10 +9,12 @@ import java.util.Optional;
 
 public interface UserEntityRepository {
     boolean existsById(String id);
+    boolean existsByLogin(String id);
 
     List<UserEntity> findAll();
 
     Optional<UserEntity> findById(String id);
+    Optional<UserEntity> findByLogin(String id);
 
     Page<UserEntity> findAll(Pageable p);
 
