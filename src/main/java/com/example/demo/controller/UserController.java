@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.UserEntity;
 import com.example.demo.model.UserReadModel;
 import com.example.demo.model.UserUpdateModel;
 import com.example.demo.model.UserWriteModel;
@@ -31,13 +30,46 @@ public class UserController {
     @RequestMapping(
             method = RequestMethod.POST,
             path = "/users")
-    ResponseEntity<?> addNewUser(@RequestBody UserWriteModel ue) {
-        userService.addNewUser(ue);
-        logger.info("Crated user: " + ue.getLogin());
+    ResponseEntity<?> addNewUser(@RequestBody UserWriteModel userWriteModel) {
+        if (userService.addNewUser(userWriteModel)) {
+            logger.info("Crated user: " + userWriteModel.getLogin());
+            return ResponseEntity
+                    .ok()
+                    .build();
+        } else {
+            return ResponseEntity
+                    .status(409)
+                    .build();
+        }
+    }
 
-        return ResponseEntity
-                .ok()
-                .build();
+    @RequestMapping(
+            method = RequestMethod.PATCH,
+            path = "/users")
+    ResponseEntity<?> changePasswordByLoginAndLastPassword(@RequestBody UserUpdateModel source) {
+        if (userService.changPassword(source)) {
+            logger.info("Password changed: " + source.getLogin());
+            return ResponseEntity
+                    .noContent()
+                    .build();
+        } else {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
+    }
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            path = "/users/{idUser}")
+    ResponseEntity<?> deleteUserById(@PathVariable String idUser) {
+        logger.info("Somebody want delete USER");
+        if (userService.deleteUserById(idUser)) {
+            logger.warn("User deleted by id " + idUser);
+            return ResponseEntity.accepted().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @RequestMapping(
@@ -62,9 +94,9 @@ public class UserController {
     @RequestMapping(
             method = RequestMethod.PUT,
             path = "/users")
-    ResponseEntity<?> updateUser(@RequestBody @Valid UserUpdateModel source) {
-        if (userService.update(source)) {
-            logger.info("User " + source.getLogin() + " is update");
+    ResponseEntity<?> updateUserById(@RequestBody @Valid UserUpdateModel source) {
+        if (userService.updateUserByModelUpdate(source)) {
+            logger.info("User update");
             return ResponseEntity
                     .noContent()
                     .build();
@@ -72,19 +104,6 @@ public class UserController {
             return ResponseEntity
                     .notFound()
                     .build();
-        }
-    }
-
-    @RequestMapping(
-            method = RequestMethod.DELETE,
-            path = "/users/{idUser}")
-    ResponseEntity<?> deleteUser(@PathVariable String idUser) {
-        logger.info("Some body want delete USER");
-        if (userService.delete(idUser)) {
-            logger.warn("User deleted by id " + idUser);
-            return ResponseEntity.accepted().build();
-        } else {
-            return ResponseEntity.notFound().build();
         }
     }
 }

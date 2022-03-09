@@ -5,6 +5,9 @@ spring:
     console:
       enabled: true
       path: '/console'
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   datasource:
     url: 'jdbc:h2:file:C:\Users\pawel\OneDrive\Desktop\demo\demo\db-api'

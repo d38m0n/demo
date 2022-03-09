@@ -15,7 +15,7 @@ public class CompanyService {
         this.companyRep = companyRep;
     }
 
-    public CompanyEntity add(CompanyEntity ce){
+    public CompanyEntity addCompay(CompanyEntity ce){
         ce.setEvidence_id(evidenceRep.save(ce.getEvidence_id()));
         return companyRep.save(ce);
     }

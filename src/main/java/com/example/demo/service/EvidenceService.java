@@ -2,19 +2,18 @@ package com.example.demo.service;
 
 import com.example.demo.entity.EvidenceEntity;
 import com.example.demo.repository.EvidenceEntityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class EvidenceService {
-    @Autowired
-    private EvidenceEntityRepository rep;
+    private EvidenceEntityRepository evidenceRepo;
 
-    public EvidenceService() {
-
+    public EvidenceService(EvidenceEntityRepository evidenceRepo) {
+        this.evidenceRepo = evidenceRepo;
     }
 
-    public EvidenceEntity add (EvidenceEntity ee) {
-        return rep.save( ee);
+    public EvidenceEntity addEvidence(EvidenceEntity ee) {
+        return evidenceRepo.save(ee);
     }
 }

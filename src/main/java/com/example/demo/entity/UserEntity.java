@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import com.example.demo.model.UserUpdateModel;
 import com.example.demo.model.UserWriteModel;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -76,6 +77,7 @@ public class UserEntity extends BaseEditEntity {
     public void setLogbook(Set<LogbookEntity> logger) {
         this.logbook = logger;
     }
+
 
     public void updateFrom(final UserUpdateModel source) {
         this.company_id = source.getCompany_id();

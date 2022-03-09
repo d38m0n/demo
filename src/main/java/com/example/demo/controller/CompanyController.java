@@ -23,9 +23,9 @@ public class CompanyController {
     @RequestMapping(
             method = RequestMethod.POST,
             path = "/companies")
-    ResponseEntity<?> addNewCompanies(@RequestBody CompanyEntity ce) {
-        logger.warn("add try");
-        companyService.add(ce);
+    ResponseEntity<?> addNewCompany(@RequestBody CompanyEntity source) {
+        logger.warn("Add Company");
+        companyService.addCompay(source);
         return ResponseEntity
                 .ok()
                 .build();

@@ -18,16 +18,38 @@ public class UserService {
     private UserEntityRepository userRepo;
     private PasswordEncoder encoder;
 
-
     public UserService(UserEntityRepository userRepo, PasswordEncoder encoder) {
         this.userRepo = userRepo;
         this.encoder = encoder;
     }
 
-    public UserEntity addNewUser(UserWriteModel source) {
+    public boolean addNewUser(UserWriteModel source) {
+        if (userRepo.existsByLogin(source.getLogin())) return false;
         source.setPsw(encoder.encode(source.getPsw()));
-        return userRepo
-                .save(source.getUserEntity());
+        userRepo.save(source.getUserEntity());
+        return true;
+    }
+
+    public boolean changPassword(UserUpdateModel source) {
+        if (!userRepo.existsByLogin(source.getLogin())) return false;
+        UserEntity user = userRepo.findByLogin(source.getLogin()).orElseThrow();
+        if (isMatchesPassword(source, user)) {
+            user.setPsw(encoder.encode(source.getNewPsw()));
+            userRepo.save(user);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean deleteUserById(String idUser) {
+        if (userRepo.existsById(idUser)) return false;
+        userRepo.deleteById(idUser);
+        return true;
+    }
+
+    private boolean isMatchesPassword(UserUpdateModel source, UserEntity userEntity) {
+        return encoder.matches(source.getPsw(), userEntity.getPsw());
     }
 
     public List<UserReadModel> findAllUsers() {
@@ -45,19 +67,13 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public boolean update(UserUpdateModel source) {
+    public boolean updateUserByModelUpdate(UserUpdateModel source) {
         if (!userRepo.existsById(source.getId())) return false;
         userRepo.findById(source.getId())
                 .ifPresent(ue -> {
                     ue.updateFrom(source);
                     userRepo.save(ue);
                 });
-        return true;
-    }
-
-    public boolean delete(String idUser) {
-        if (userRepo.existsById(idUser)) return false;
-        userRepo.deleteById(idUser);
         return true;
     }
 
