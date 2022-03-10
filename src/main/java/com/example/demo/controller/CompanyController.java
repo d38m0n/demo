@@ -25,7 +25,7 @@ public class CompanyController {
             path = "/companies")
     ResponseEntity<?> addNewCompany(@RequestBody CompanyEntity source) {
         logger.warn("Add Company");
-        companyService.addCompay(source);
+        companyService.addCompany(source);
         return ResponseEntity
                 .ok()
                 .build();
