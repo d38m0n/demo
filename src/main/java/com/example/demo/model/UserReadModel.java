@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.entity.EvidenceEntity;
 import com.example.demo.entity.UserEntity;
 
 
@@ -8,6 +9,8 @@ public class UserReadModel {
     private String login;
     private String email;
     private boolean isActive;
+    private String evidence_id;
+
 
     public UserReadModel() {
     }
@@ -17,6 +20,7 @@ public class UserReadModel {
         this.email = source.getEmail();
         this.isActive = source.isActive();
         this.login = source.getLogin();
+        this.evidence_id = source.getEvidence_id().getId();
     }
 
     public String getCompany_id() {
@@ -51,4 +55,11 @@ public class UserReadModel {
         isActive = active;
     }
 
+    public String getEvidence_id() {
+        return evidence_id;
+    }
+
+    public void setEvidence_id(String evidence_id) {
+        this.evidence_id = evidence_id;
+    }
 }

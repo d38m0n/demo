@@ -1,16 +1,8 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
-import com.example.demo.model.EvidenceWriteModel;
+import com.example.demo.entity.EvidenceEntity;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
-
-@Entity
-@Table(name = "evidence")
-public class EvidenceEntity  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+public class EvidenceWriteModel {
     private String name;
     private String sureName;
     private String pesel;
@@ -21,20 +13,23 @@ public class EvidenceEntity  {
     private String nip;
     private String brand;
     private String logoUrl;
-    private LocalDateTime createdOn;
-    private LocalDateTime updatedOn;
 
-    public EvidenceEntity() {
+    public EvidenceWriteModel() {
     }
 
-
-    public String getId() {
-        return id;
+    public EvidenceWriteModel(EvidenceEntity source) {
+        this.name = source.getName();
+        this.sureName = source.getSureName();
+        this.pesel = source.getPesel();
+        this.sex = source.getSex();
+        this.street = source.getStreet();
+        this.city = source.getCity();
+        this.country = source.getCountry();
+        this.nip = source.getNip();
+        this.brand = source.getBrand();
+        this.logoUrl = getLogoUrl();
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -116,29 +111,8 @@ public class EvidenceEntity  {
         this.logoUrl = logoUrl;
     }
 
-    @PrePersist
-    void dateCreated() {
-        createdOn = LocalDateTime.now();
+    public EvidenceEntity getEntityEvidence() {
 
-    }
-
-    @PreUpdate
-    void lastUpdate() {
-        updatedOn = LocalDateTime.now();
-    }
-
-    public EvidenceEntity updateFrom(EvidenceWriteModel source){
-        this.name= source.getName();
-        this.sureName= source.getSureName();
-        this.pesel= source.getPesel();
-        this.sex= source.getSex();
-        this.street= source.getStreet();
-        this.city= source.getCity();
-        this.country= source.getCountry();
-        this.brand= source.getBrand();
-        this.nip= source.getNip();
-        this.city= source.getCity();
-        this.logoUrl= source.getLogoUrl();
-        return this;
+        return new EvidenceEntity().updateFrom(this);
     }
 }

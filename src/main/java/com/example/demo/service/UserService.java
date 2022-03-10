@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.EvidenceEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.UserReadModel;
 import com.example.demo.model.UserUpdateModel;
 import com.example.demo.model.UserWriteModel;
+import com.example.demo.repository.EvidenceEntityRepository;
 import com.example.demo.repository.UserEntityRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,17 +18,22 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private UserEntityRepository userRepo;
+    private EvidenceService evidenceService;
     private PasswordEncoder encoder;
 
-    public UserService(UserEntityRepository userRepo, PasswordEncoder encoder) {
+    public UserService(UserEntityRepository userRepo,
+                       EvidenceService evidenceService,
+                       PasswordEncoder encoder) {
         this.userRepo = userRepo;
+        this.evidenceService = evidenceService;
         this.encoder = encoder;
     }
 
     public boolean addNewUser(UserWriteModel source) {
         if (userRepo.existsByLogin(source.getLogin())) return false;
         source.setPsw(encoder.encode(source.getPsw()));
-        userRepo.save(source.getUserEntity());
+        userRepo.save(source.getUserEntity(evidenceService
+                .addNewEvidenceEntityForPerson(source.getEvidenceModel())));
         return true;
     }
 

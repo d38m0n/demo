@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.model.EvidenceWriteModel;
 import com.example.demo.model.UserUpdateModel;
 import com.example.demo.model.UserWriteModel;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +29,13 @@ public class UserEntity extends BaseEditEntity {
         this.login = login;
         this.psw = psw;
         this.email = email;
+    }
+
+    public UserEntity(String psw, String login, String email, EvidenceEntity source) {
+        this.login = login;
+        this.psw = psw;
+        this.email = email;
+        this.setEvidence_id(source);
     }
 
     public String getCompany_id() {

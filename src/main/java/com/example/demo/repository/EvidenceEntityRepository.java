@@ -11,6 +11,10 @@ import java.util.Optional;
 public interface EvidenceEntityRepository {
     boolean existsById(String id);
 
+    boolean existsByNip(String nip);
+
+    boolean existsByPesel(String pesel);
+
     List<EvidenceEntity> findAll();
 
     Optional<EvidenceEntity> findById(String id);
@@ -19,5 +23,7 @@ public interface EvidenceEntityRepository {
 
     EvidenceEntity save(EvidenceEntity ue);
 
-    void deleteById (String id);
+    void deleteById(String id);
+
+    Optional<EvidenceEntity> findByPesel(String id);
 }

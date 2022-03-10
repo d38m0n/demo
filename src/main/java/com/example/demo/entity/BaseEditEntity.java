@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
 import com.example.demo.repository.EvidenceEntityRepository;
-import com.example.demo.repository.UserEntityRepository;
-import com.example.demo.service.EvidenceService;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -34,9 +32,6 @@ abstract class BaseEditEntity {
         this.evidence_id = evidence_id;
     }
 
-    public BaseEditEntity(EvidenceEntityRepository rep) {
-        evidence_id = rep.save(new EvidenceEntity());
-    }
 
     @PrePersist
     void dateCreated() {
