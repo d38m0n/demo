@@ -1,4 +1,4 @@
-# demo
+# My Demo Aplication
 My demonstrational web aplication
 
 This is my first application for recruiter. 
