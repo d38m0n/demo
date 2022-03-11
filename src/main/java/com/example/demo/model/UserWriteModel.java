@@ -8,7 +8,7 @@ public class UserWriteModel {
     private String login;
     private String psw;
     private String email;
-    private EvidenceEntity evidence;
+    private EvidenceEntity evidence_id;
 
     public UserWriteModel() {
     }
@@ -47,15 +47,15 @@ public class UserWriteModel {
     }
 
     public EvidenceUpdateModel getEvidenceModel() {
-        return new EvidenceUpdateModel(this.evidence);
+        return new EvidenceUpdateModel(this.evidence_id);
 
     }
 
-    public EvidenceEntity getEvidence() {
-        return evidence;
+    public EvidenceEntity getEvidence_id() {
+        return evidence_id;
     }
 
-    public void setEvidence(EvidenceEntity evidence) {
-        this.evidence = evidence;
+    public void setEvidence_id(EvidenceEntity evidence_id) {
+        this.evidence_id = evidence_id;
     }
 }
