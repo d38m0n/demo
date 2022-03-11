@@ -24,6 +24,10 @@ public class EvidenceEntity  {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @PrimaryKeyJoinColumn
+    private  UserEntity userEntity;
+
     public EvidenceEntity() {
     }
 
@@ -114,6 +118,14 @@ public class EvidenceEntity  {
 
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     @PrePersist

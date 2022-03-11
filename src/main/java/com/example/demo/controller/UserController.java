@@ -31,32 +31,24 @@ public class UserController {
             method = RequestMethod.POST,
             path = "/users")
     ResponseEntity<?> addNewUser(@RequestBody UserWriteModel userWriteModel) {
-        if (userService.addNewUser(userWriteModel)) {
-            logger.info("Crated user: " + userWriteModel.getLogin());
-            return ResponseEntity
-                    .ok()
-                    .build();
-        } else {
-            return ResponseEntity
-                    .status(409)
-                    .build();
-        }
+        userService.addNewUser(userWriteModel);
+        logger.info("Crated user: " + userWriteModel.getLogin());
+        return ResponseEntity
+                .ok()
+                .build();
+
     }
 
     @RequestMapping(
             method = RequestMethod.PATCH,
             path = "/users")
     ResponseEntity<?> changePasswordByLoginAndLastPassword(@RequestBody UserUpdateModel source) {
-        if (userService.changPassword(source)) {
-            logger.info("Password changed: " + source.getLogin());
-            return ResponseEntity
-                    .noContent()
-                    .build();
-        } else {
-            return ResponseEntity
-                    .notFound()
-                    .build();
-        }
+        userService.changPassword(source);
+        logger.info("Password changed: " + source.getLogin());
+        return ResponseEntity
+                .noContent()
+                .build();
+
     }
 
     @RequestMapping(
@@ -64,12 +56,10 @@ public class UserController {
             path = "/users/{idUser}")
     ResponseEntity<?> deleteUserById(@PathVariable String idUser) {
         logger.info("Somebody want delete USER");
-        if (userService.deleteUserById(idUser)) {
-            logger.warn("User deleted by id " + idUser);
-            return ResponseEntity.accepted().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        userService.deleteUserById(idUser);
+        logger.warn("User deleted by id " + idUser);
+        return ResponseEntity.accepted().build();
+
     }
 
     @RequestMapping(
@@ -95,15 +85,11 @@ public class UserController {
             method = RequestMethod.PUT,
             path = "/users")
     ResponseEntity<?> updateUserById(@RequestBody @Valid UserUpdateModel source) {
-        if (userService.updateUserByModelUpdate(source)) {
-            logger.info("User update");
-            return ResponseEntity
-                    .noContent()
-                    .build();
-        } else {
-            return ResponseEntity
-                    .notFound()
-                    .build();
-        }
+        userService.updateUserByModelUpdate(source);
+        logger.info("User update");
+        return ResponseEntity
+                .noContent()
+                .build();
+
     }
 }

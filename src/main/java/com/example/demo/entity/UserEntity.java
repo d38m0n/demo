@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import com.example.demo.model.EvidenceWriteModel;
 import com.example.demo.model.UserUpdateModel;
-import com.example.demo.model.UserWriteModel;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,7 +14,7 @@ public class UserEntity extends BaseEditEntity {
     private String psw;
     private String email;
     private boolean isActive;
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "logbook_id")
     private Set<LogbookEntity> logbook;
 
@@ -87,11 +84,12 @@ public class UserEntity extends BaseEditEntity {
     }
 
 
-    public void updateFrom(final UserUpdateModel source) {
+    public UserEntity updateFrom(final UserUpdateModel source) {
         this.company_id = source.getCompany_id();
         this.email = source.getEmail();
         this.login = source.getLogin();
         this.isActive = source.isActive();
+        return this;
 
     }
 }

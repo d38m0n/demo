@@ -21,4 +21,5 @@ public interface UserEntityRepository {
     UserEntity save(UserEntity ue);
 
     void deleteById (String id);
+    void delete (UserEntity entity);
 }

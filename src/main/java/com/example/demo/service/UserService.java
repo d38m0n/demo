@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.EvidenceEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.UserReadModel;
 import com.example.demo.model.UserUpdateModel;
 import com.example.demo.model.UserWriteModel;
-import com.example.demo.repository.EvidenceEntityRepository;
 import com.example.demo.repository.UserEntityRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,27 +27,27 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    public boolean addNewUser(UserWriteModel source) {
-        if (userRepo.existsByLogin(source.getLogin())) return false;
+    public void addNewUser(UserWriteModel source) {
+        if (userRepo.existsByLogin(source.getLogin())) throw new IllegalArgumentException("This login is exist");
         source.setPsw(encoder.encode(source.getPsw()));
-        userRepo.save(source.getUserEntity(evidenceService
-                .addNewEvidenceEntityForPerson(source.getEvidenceModel())));
-        return true;
+        userRepo.save(source.getUserEntity(evidenceService.addNewEvidenceEntityForPerson(source.getEvidenceModel())));
     }
 
-    public boolean changPassword(UserUpdateModel source) {
-        if (!userRepo.existsByLogin(source.getLogin())) return false;
-        UserEntity user = userRepo.findByLogin(source.getLogin()).orElseThrow();
+    public void changPassword(UserUpdateModel source) {
+
+        UserEntity user = userRepo.findByLogin(source.getLogin())
+                .orElseThrow(() -> new IllegalArgumentException("Not found this login"));
         if (isMatchesPassword(source, user)) {
             user.setPsw(encoder.encode(source.getNewPsw()));
             userRepo.save(user);
-            return true;
+        } else {
+            throw new IllegalArgumentException("No matches password");
         }
 
-        return false;
     }
 
     public boolean deleteUserById(String idUser) {
+//not work :(
         if (userRepo.existsById(idUser)) return false;
         userRepo.deleteById(idUser);
         return true;
@@ -74,14 +72,10 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public boolean updateUserByModelUpdate(UserUpdateModel source) {
-        if (!userRepo.existsById(source.getId())) return false;
-        userRepo.findById(source.getId())
-                .ifPresent(ue -> {
-                    ue.updateFrom(source);
-                    userRepo.save(ue);
-                });
-        return true;
+    public void updateUserByModelUpdate(UserUpdateModel source) {
+        UserEntity userUpdated = userRepo.findById(source.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Not found this id")).updateFrom(source);
+        userRepo.save(userUpdated);
     }
 
 }

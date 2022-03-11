@@ -51,7 +51,9 @@ public class EvidenceService {
                 .orElseThrow(() -> new IllegalArgumentException("This PESEL not exist"))
                 .updateFrom(source);
         return evidenceRepo.save(updatedEvidence);
-
-
+    }
+//    deleted user with FK
+    public void deleteEvidence(String id){
+        evidenceRepo.deleteById(id);
     }
 }

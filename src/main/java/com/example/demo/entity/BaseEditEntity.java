@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import com.example.demo.repository.EvidenceEntityRepository;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
