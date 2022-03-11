@@ -46,9 +46,13 @@ public class UserWriteModel {
         this.email = email;
     }
 
-    public EvidenceWriteModel getEvidenceModel() {
-        return new EvidenceWriteModel(this.evidence);
+    public EvidenceUpdateModel getEvidenceModel() {
+        return new EvidenceUpdateModel(this.evidence);
 
+    }
+
+    public EvidenceEntity getEvidence() {
+        return evidence;
     }
 
     public void setEvidence(EvidenceEntity evidence) {

@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.CompanyEntity;
 
+import com.example.demo.model.CompanyReadModel;
+import com.example.demo.model.CompanyUpdateModel;
 import com.example.demo.service.CompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class CompanyController {
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    private final  CompanyService companyService;
+    private final CompanyService companySer;
 
-    public CompanyController(CompanyService companyService) {
-        this.companyService = companyService;
+    public CompanyController(CompanyService companySer) {
+        this.companySer = companySer;
     }
 
     @RequestMapping(
@@ -25,7 +27,27 @@ public class CompanyController {
             path = "/companies")
     ResponseEntity<?> addNewCompany(@RequestBody CompanyEntity source) {
         logger.warn("Add Company");
-        companyService.addCompany(source);
+        companySer.addCompany(source);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = "/companies")
+    ResponseEntity<?> getAllCompanies() {
+        logger.warn("Get all Companies");
+        return ResponseEntity
+                .ok(companySer.getAllCompanies());
+    }
+
+    @RequestMapping(
+            method = RequestMethod.PATCH,
+            path = "/companies")
+    ResponseEntity<?> getAllCompanies(@RequestBody CompanyUpdateModel source) {
+        logger.warn("Update company" );
+        companySer.updateCompanyById(source);
         return ResponseEntity
                 .ok()
                 .build();

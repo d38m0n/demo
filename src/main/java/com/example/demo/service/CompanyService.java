@@ -1,24 +1,53 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.CompanyEntity;
+import com.example.demo.entity.EvidenceEntity;
+import com.example.demo.entity.UserEntity;
+import com.example.demo.model.CompanyReadModel;
+import com.example.demo.model.CompanyUpdateModel;
 import com.example.demo.repository.CompanyEntityRepository;
-import com.example.demo.repository.EvidenceEntityRepository;
+
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
-    private EvidenceEntityRepository evidenceRep;
+    private EvidenceService evidenceService;
     private CompanyEntityRepository companyRep;
 
-    public CompanyService(EvidenceEntityRepository evidenceRep, CompanyEntityRepository companyRep) {
-        this.evidenceRep = evidenceRep;
+    public CompanyService(EvidenceService evidenceService,
+                          CompanyEntityRepository companyRep) {
+        this.evidenceService = evidenceService;
         this.companyRep = companyRep;
     }
 
-    public CompanyEntity addCompany(CompanyEntity ce){
-        ce.setEvidence_id(evidenceRep.save(ce.getEvidence_id()));
+    public CompanyEntity addCompany(CompanyEntity ce) {
+
+        EvidenceEntity addEvidence = evidenceService
+                .addNewEvidenceEntityForCompany(ce.getEvidence_id());
+
+        ce.setEvidence_id(addEvidence);
         return companyRep.save(ce);
     }
 
+    public List<CompanyReadModel> getAllCompanies() {
+        return companyRep.findAll()
+                .stream()
+                .map(CompanyReadModel::new)
+                .collect(Collectors.toList());
+    }
 
+
+    public void updateCompanyById(CompanyUpdateModel source) {
+        if (source.getId() != null) {
+            CompanyEntity companyUpdate = companyRep.findById(source.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Not found this id"))
+                    .updateFrom(source);
+            companyRep.save(companyUpdate);
+        }else {
+            throw new IllegalArgumentException("Not found id in body ");
+        }
+    }
 }

@@ -1,13 +1,14 @@
 package com.example.demo.entity;
 
 
+import com.example.demo.model.CompanyUpdateModel;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "companies")
 public class CompanyEntity extends BaseEditEntity {
 
-    private String brand;
     private String name;
     private String status;
     private String description;
@@ -15,13 +16,6 @@ public class CompanyEntity extends BaseEditEntity {
     public CompanyEntity() {
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
 
     public String getName() {
         return name;
@@ -47,10 +41,11 @@ public class CompanyEntity extends BaseEditEntity {
         this.description = description_2;
     }
 
-    public void updateFrom(final CompanyEntity store) {
-        this.brand = store.brand;
-        this.description = store.description;
-        this.name = store.name;
-        this.status = store.status;
+    public CompanyEntity updateFrom(final CompanyUpdateModel store) {
+        this.description = store.getDescription();
+        this.name = store.getName();
+        this.status = store.getStatus();
+        return this;
     }
+
 }

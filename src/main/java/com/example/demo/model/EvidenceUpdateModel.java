@@ -2,7 +2,8 @@ package com.example.demo.model;
 
 import com.example.demo.entity.EvidenceEntity;
 
-public class EvidenceWriteModel {
+public class EvidenceUpdateModel {
+    private String id;
     private String name;
     private String sureName;
     private String pesel;
@@ -14,10 +15,10 @@ public class EvidenceWriteModel {
     private String brand;
     private String logoUrl;
 
-    public EvidenceWriteModel() {
+    public EvidenceUpdateModel() {
     }
 
-    public EvidenceWriteModel(EvidenceEntity source) {
+    public EvidenceUpdateModel(EvidenceEntity source) {
         this.name = source.getName();
         this.sureName = source.getSureName();
         this.pesel = source.getPesel();

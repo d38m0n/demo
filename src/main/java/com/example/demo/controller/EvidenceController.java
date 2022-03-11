@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.EvidenceWriteModel;
+import com.example.demo.entity.EvidenceEntity;
+import com.example.demo.model.EvidenceUpdateModel;
 import com.example.demo.service.EvidenceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ public class EvidenceController {
     @RequestMapping(
             method = RequestMethod.POST,
             path = "/evidence-user")
-    ResponseEntity<?> addUserEvidence(@RequestBody EvidenceWriteModel source) {
+    ResponseEntity<?> addUserEvidence(@RequestBody EvidenceEntity source) {
         evidenceService.addNewEvidenceEntityForPerson(source);
         logger.info("Crated new evidence ");
         return ResponseEntity
@@ -33,7 +34,7 @@ public class EvidenceController {
     @RequestMapping(
             method = RequestMethod.POST,
             path = "/evidence-company")
-    ResponseEntity<?> addCompanyEvidence(@RequestBody EvidenceWriteModel source) {
+    ResponseEntity<?> addCompanyEvidence(@RequestBody EvidenceEntity source) {
         evidenceService.addNewEvidenceEntityForCompany(source);
         logger.info("Crated new evidence ");
         return ResponseEntity
@@ -66,7 +67,7 @@ public class EvidenceController {
     @RequestMapping(
             method = RequestMethod.PUT,
             path = "/evidence-user")
-    ResponseEntity<?> updateUserEvidence(@RequestBody EvidenceWriteModel source) {
+    ResponseEntity<?> updateUserEvidence(@RequestBody EvidenceUpdateModel source) {
         evidenceService.updateEvidenceEntityForPerson(source);
         logger.info("Update evidence " + source.getPesel());
         return ResponseEntity

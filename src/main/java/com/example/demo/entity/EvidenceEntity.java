@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import com.example.demo.model.EvidenceWriteModel;
+import com.example.demo.model.EvidenceUpdateModel;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,7 +26,11 @@ public class EvidenceEntity  {
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @PrimaryKeyJoinColumn
-    private  UserEntity userEntity;
+    private  UserEntity user;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @PrimaryKeyJoinColumn
+    private CompanyEntity company;
 
     public EvidenceEntity() {
     }
@@ -120,12 +124,20 @@ public class EvidenceEntity  {
         this.logoUrl = logoUrl;
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
+    public void setUser(UserEntity userEntity) {
+        this.user = userEntity;
+    }
+
+    public CompanyEntity getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyEntity company) {
+        this.company = company;
     }
 
     @PrePersist
@@ -139,7 +151,7 @@ public class EvidenceEntity  {
         updatedOn = LocalDateTime.now();
     }
 
-    public EvidenceEntity updateFrom(EvidenceWriteModel source){
+    public EvidenceEntity updateFrom(EvidenceUpdateModel source){
         this.name= source.getName();
         this.sureName= source.getSureName();
         this.pesel= source.getPesel();

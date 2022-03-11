@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,17 +47,6 @@ public class UserController {
         return ResponseEntity
                 .noContent()
                 .build();
-
-    }
-
-    @RequestMapping(
-            method = RequestMethod.DELETE,
-            path = "/users/{idUser}")
-    ResponseEntity<?> deleteUserById(@PathVariable String idUser) {
-        logger.info("Somebody want delete USER");
-        userService.deleteUserById(idUser);
-        logger.warn("User deleted by id " + idUser);
-        return ResponseEntity.accepted().build();
 
     }
 

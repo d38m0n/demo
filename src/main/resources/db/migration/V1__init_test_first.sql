@@ -12,7 +12,6 @@ LOGBOOK_ID varchar (255)
 CREATE TABLE companies(
 ID varchar  primary key auto_increment,
 EVIDENCE_ID varchar (255),
-BRAND varchar (255),
 NAME varchar (255),
 STATUS varchar (255),
 DESCRIPTION varchar (255)

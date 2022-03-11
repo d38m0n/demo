@@ -30,7 +30,8 @@ public class UserService {
     public void addNewUser(UserWriteModel source) {
         if (userRepo.existsByLogin(source.getLogin())) throw new IllegalArgumentException("This login is exist");
         source.setPsw(encoder.encode(source.getPsw()));
-        userRepo.save(source.getUserEntity(evidenceService.addNewEvidenceEntityForPerson(source.getEvidenceModel())));
+        userRepo.save(source.getUserEntity(evidenceService
+                .addNewEvidenceEntityForPerson(source.getEvidence())));
     }
 
     public void changPassword(UserUpdateModel source) {
@@ -46,12 +47,6 @@ public class UserService {
 
     }
 
-    public boolean deleteUserById(String idUser) {
-//not work :(
-        if (userRepo.existsById(idUser)) return false;
-        userRepo.deleteById(idUser);
-        return true;
-    }
 
     private boolean isMatchesPassword(UserUpdateModel source, UserEntity userEntity) {
         return encoder.matches(source.getPsw(), userEntity.getPsw());
