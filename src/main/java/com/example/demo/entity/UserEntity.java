@@ -18,7 +18,6 @@ public class UserEntity extends BaseEditEntity {
     @JoinColumn(name = "logbook_id")
     private Set<LogbookEntity> logbook;
 
-
     public UserEntity() {
     }
 

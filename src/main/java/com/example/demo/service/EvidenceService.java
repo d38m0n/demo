@@ -1,6 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.EvidenceEntity;
+import com.example.demo.exception.error.EvidenceNotFoundException;
+import com.example.demo.exception.error.EvidenceNullPositionException;
+import com.example.demo.exception.error.EvidenceRepetitionException;
 import com.example.demo.model.EvidenceReadModel;
 import com.example.demo.model.EvidenceUpdateModel;
 import com.example.demo.repository.EvidenceEntityRepository;
@@ -19,43 +22,38 @@ public class EvidenceService {
     }
 
     public EvidenceEntity addNewEvidenceEntityForPerson(EvidenceEntity source) {
-
         if (source == null) {
-            throw new IllegalArgumentException("Evidence cannot be null ! ! ! ");
+            throw new EvidenceNullPositionException("Evidence");
         } else if (source.getPesel() == null && source.getId() == null) {
-            throw new IllegalArgumentException("pesel cannot be null ! ! ! ");
+            throw new EvidenceNullPositionException("PESEL");
         } else if (source.getPesel() == null && !evidenceRepo.existsById(source.getId())) {
-            throw new IllegalArgumentException("Id not exist");
+            throw new EvidenceNotFoundException(source.getId());
         } else if (source.getId() == null && evidenceRepo.existsByPesel(source.getPesel())) {
-            throw new IllegalArgumentException("This PESEL exist");
+            throw new EvidenceRepetitionException("PESEL");
         }
         return addEntityEvidence(source);
     }
 
     public EvidenceEntity addNewEvidenceEntityForCompany(EvidenceEntity source) {
         if (source == null) {
-            throw new IllegalArgumentException("Evidence cannot be null ! ! ! ");
+            throw new EvidenceNullPositionException("Evidence");
         } else if (source.getNip() == null && source.getId() == null) {
-            throw new IllegalArgumentException("NIP cannot be null ");
+            throw new EvidenceNullPositionException("NIP");
         } else if (source.getNip() == null && !evidenceRepo.existsById(source.getId())) {
-            throw new IllegalArgumentException("Id not exist");
+            throw new EvidenceNotFoundException(source.getId());
         } else if (source.getId() == null && evidenceRepo.existsByNip(source.getNip())) {
-            throw new IllegalArgumentException("This NIP exist");
+            throw new EvidenceRepetitionException("NIP");
         }
         return addEntityEvidence(source);
     }
 
     private EvidenceEntity addEntityEvidence(EvidenceEntity source) {
-        if (source == null) {
-            return evidenceRepo.save(new EvidenceEntity());
-        } else if (source.getId() != null &&
-                evidenceRepo.existsById(source.getId())) {
+        if (evidenceRepo.existsById(source.getId())) {
             return evidenceRepo.findById(source.getId())
-                    .orElseThrow();
+                    .orElseThrow(()->new EvidenceNotFoundException(source.getId()));
         } else {
             return evidenceRepo.save(source);
         }
-
     }
 
     public List<EvidenceReadModel> getAllEvidence() {
@@ -68,7 +66,7 @@ public class EvidenceService {
     public EvidenceEntity updateEvidenceEntityForPerson(EvidenceUpdateModel source) {
 
         EvidenceEntity updatedEvidence = evidenceRepo.findByPesel(source.getPesel())
-                .orElseThrow(() -> new IllegalArgumentException("This PESEL not exist"))
+                .orElseThrow(() -> new EvidenceNotFoundException(" PESEL"))
                 .updateFrom(source);
         return evidenceRepo.save(updatedEvidence);
     }
