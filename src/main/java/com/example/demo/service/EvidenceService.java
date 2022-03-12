@@ -71,8 +71,8 @@ public class EvidenceService {
         return evidenceRepo.save(updatedEvidence);
     }
 
-    //    deleted user with FK
+
     public void deleteEvidence(String id) {
         evidenceRepo.deleteById(id);
-    }
+    }    //    deleted user with FK
 }
