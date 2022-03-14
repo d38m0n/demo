@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserEntityRepository {
-    boolean existsById(String id);
     boolean existsByLogin(String id);
 
     List<UserEntity> findAll();
@@ -20,6 +19,4 @@ public interface UserEntityRepository {
 
     UserEntity save(UserEntity ue);
 
-    void deleteById (String id);
-    void delete (UserEntity entity);
 }

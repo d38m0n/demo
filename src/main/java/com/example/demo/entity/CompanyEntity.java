@@ -8,14 +8,18 @@ import javax.persistence.*;
 @Entity
 @Table(name = "companies")
 public class CompanyEntity extends BaseEditEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
     private String name;
     private String status;
     private String description;
 
     public CompanyEntity() {
     }
-
+    public String getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

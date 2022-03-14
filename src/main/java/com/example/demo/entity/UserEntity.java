@@ -8,7 +8,9 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class UserEntity extends BaseEditEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
     private String company_id;
     private String login;
     private String psw;
@@ -19,6 +21,10 @@ public class UserEntity extends BaseEditEntity {
     private Set<LogbookEntity> logbook;
 
     public UserEntity() {
+    }
+
+    public String getId() {
+        return id;
     }
 
     public UserEntity(String psw, String login, String email) {

@@ -4,10 +4,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-abstract class BaseEditEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+public abstract class BaseEditEntity {
+
     @OneToOne()
     @JoinColumn(name = "evidence_id")
     private EvidenceEntity evidence_id;
@@ -16,10 +14,6 @@ abstract class BaseEditEntity {
 
 
     public BaseEditEntity() {
-    }
-
-    public String getId() {
-        return id;
     }
 
     public EvidenceEntity getEvidence_id() {

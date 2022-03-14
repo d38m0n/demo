@@ -48,9 +48,11 @@ public class EvidenceService {
     }
 
     private EvidenceEntity addEntityEvidence(EvidenceEntity source) {
-        if (evidenceRepo.existsById(source.getId())) {
+        if (source.getId() == null) {
+            return evidenceRepo.save(source);
+        } else if (evidenceRepo.existsById(source.getId())) {
             return evidenceRepo.findById(source.getId())
-                    .orElseThrow(()->new EvidenceNotFoundException(source.getId()));
+                    .orElseThrow(() -> new EvidenceNotFoundException(source.getId()));
         } else {
             return evidenceRepo.save(source);
         }
@@ -60,7 +62,6 @@ public class EvidenceService {
         return evidenceRepo.findAll().stream()
                 .map(EvidenceReadModel::new)
                 .collect(Collectors.toList());
-
     }
 
     public EvidenceEntity updateEvidenceEntityForPerson(EvidenceUpdateModel source) {
@@ -73,6 +74,7 @@ public class EvidenceService {
 
 
     public void deleteEvidence(String id) {
+        if (!evidenceRepo.existsById(id)) throw new EvidenceNotFoundException(id);
         evidenceRepo.deleteById(id);
     }    //    deleted user with FK
 }
