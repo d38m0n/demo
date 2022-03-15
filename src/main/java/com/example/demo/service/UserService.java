@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.LogbookEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.error.UserLoginExistException;
 import com.example.demo.exception.error.UserNotAuthorizationException;
@@ -7,6 +8,7 @@ import com.example.demo.exception.error.UserNotFoundException;
 import com.example.demo.model.UserReadModel;
 import com.example.demo.model.UserUpdateModel;
 import com.example.demo.model.UserWriteModel;
+import com.example.demo.repository.LogbookEntityRepository;
 import com.example.demo.repository.UserEntityRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,13 +21,16 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private UserEntityRepository userRepo;
+    private LogbookEntityRepository logbookRepo;
     private EvidenceService evidenceService;
     private PasswordEncoder encoder;
 
     public UserService(UserEntityRepository userRepo,
+                       LogbookEntityRepository logbookRepo,
                        EvidenceService evidenceService,
                        PasswordEncoder encoder) {
         this.userRepo = userRepo;
+        this.logbookRepo = logbookRepo;
         this.evidenceService = evidenceService;
         this.encoder = encoder;
     }
@@ -51,13 +56,25 @@ public class UserService {
     }
 
     private boolean isMatchesPassword(UserUpdateModel source, UserEntity userEntity) {
+        if (encoder.matches(source.getPsw(), userEntity.getPsw())) {
+            UserEntity userAuthorization= userRepo.findByLogin(userEntity.getLogin())
+                    .orElseThrow(() -> new UserLoginExistException("Login"));
+            userAuthorization.addAuthorizationDate(logbookRepo.save(new LogbookEntity()));
+            userRepo.save(userAuthorization);
+
+        }
+
         return encoder.matches(source.getPsw(), userEntity.getPsw());
     }
 
-    public UserReadModel findUserById(String idUser) {
+    public UserReadModel findUserByIdModel(String idUser) {
         UserEntity userEntity = userRepo.findById(idUser)
                 .orElseThrow(() -> new UserNotFoundException(idUser));
         return new UserReadModel(userEntity);
+    }
+     UserEntity findUserByIdEntity(String idUser) {
+      return userRepo.findById(idUser)
+                .orElseThrow(() -> new UserNotFoundException(idUser));
     }
 
     public List<UserReadModel> findAllUsers() {

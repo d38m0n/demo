@@ -2,8 +2,11 @@ package com.example.demo.entity;
 
 
 import com.example.demo.model.CompanyUpdateModel;
+import com.example.demo.service.UserService;
+import org.apache.tomcat.util.buf.UEncoder;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "companies")
@@ -14,11 +17,25 @@ public class CompanyEntity extends BaseEditEntity {
     private String name;
     private String status;
     private String description;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "company_id")
+    private Set<UserEntity> users;
+
 
     public CompanyEntity() {
     }
+
     public String getId() {
         return id;
+    }
+
+    public void addUserToCompany(UserEntity source) {
+        this.users.add(source);
+    }
+
+    public CompanyEntity deleteUserWithCompany(UserEntity source) {
+        this.users.remove(source);
+        return this;
     }
 
     public String getName() {
@@ -44,6 +61,7 @@ public class CompanyEntity extends BaseEditEntity {
     public void setDescription(String description_2) {
         this.description = description_2;
     }
+
 
     public CompanyEntity updateFrom(final CompanyUpdateModel store) {
         this.description = store.getDescription();

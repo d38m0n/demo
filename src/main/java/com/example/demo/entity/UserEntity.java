@@ -11,13 +11,13 @@ public class UserEntity extends BaseEditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String company_id;
+
     private String login;
     private String psw;
     private String email;
     private boolean isActive;
     @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "logbook_id")
+    @JoinColumn(name = "user_id")
     private Set<LogbookEntity> logbook;
 
     public UserEntity() {
@@ -40,13 +40,6 @@ public class UserEntity extends BaseEditEntity {
         this.setEvidence_id(source);
     }
 
-    public String getCompany_id() {
-        return company_id;
-    }
-
-    public void setCompany_id(String company_id) {
-        this.company_id = company_id;
-    }
 
     public String getLogin() {
         return login;
@@ -88,9 +81,13 @@ public class UserEntity extends BaseEditEntity {
         this.logbook = logger;
     }
 
+    public UserEntity addAuthorizationDate(LogbookEntity logbookEntity) {
+        this.logbook.add(logbookEntity);
+        return this;
+    }
 
     public UserEntity updateFrom(final UserUpdateModel source) {
-        this.company_id = source.getCompany_id();
+
         this.email = source.getEmail();
         this.login = source.getLogin();
         this.isActive = source.isActive();

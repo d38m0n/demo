@@ -16,7 +16,6 @@ public class UserReadModel {
     }
 
     public UserReadModel(UserEntity source) {
-        this.company_id = source.getCompany_id();
         this.email = source.getEmail();
         this.isActive = source.isActive();
         this.login = source.getLogin();

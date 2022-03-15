@@ -3,7 +3,9 @@ package com.example.demo.service;
 import com.example.demo.configuration.AppConfig;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.error.UserLoginExistException;
+import com.example.demo.exception.error.UserNotFoundException;
 import com.example.demo.model.UserWriteModel;
+import com.example.demo.repository.LogbookEntityRepository;
 import com.example.demo.repository.UserEntityRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,16 +33,15 @@ class UserServiceTest {
     @DisplayName("show UserLoginExistException if login exist in db")
     void create_user_write_model_check_exist_and_throw_UserLoginExistException() {
 //         give
+        var logbookMock = mock(LogbookEntityRepository.class);
         var encoder = mock(PasswordEncoder.class);
         var evidenceService = mock(EvidenceService.class);
         var mockUserExist = mock(UserEntityRepository.class);
-        var mockUserService = new UserService(mockUserExist, evidenceService, encoder);
+        var mockUserService = new UserService(mockUserExist,logbookMock,evidenceService,encoder);
         var userWriteModel = new UserWriteModel();
-
 //       when
         when(mockUserExist.existsByLogin(anyString())).thenReturn(true);
         userWriteModel.setLogin("test");
-
 //       give
         assertThatThrownBy(() -> mockUserService.addNewUser(userWriteModel))
                 .isInstanceOf(UserLoginExistException.class)
@@ -48,12 +49,20 @@ class UserServiceTest {
     }
 
     @Test
-    void test_memory_user_repository(){
+    @DisplayName("show UserNotFoundException if id not exist")
+    void find_user_by_id_and_if_not_exist_throw_UserNotFoundException() {
+        var logbookMock = mock(LogbookEntityRepository.class);
+        var encoder = mock(PasswordEncoder.class);
+        var evidenceService = mock(EvidenceService.class);
+        var mockUserExist = mock(UserEntityRepository.class);
+        var mockUserService = new UserService(mockUserExist,logbookMock,evidenceService,encoder);
 
-        inMemoryUsersRepository().save(new UserEntity());
-        int size = inMemoryUsersRepository().findAll().size();
-        System.out.println(size);
+        when(mockUserExist.findById("13")).thenThrow(new UserNotFoundException("13"));
+
+        assertThatThrownBy(() -> mockUserService.findUserByIdModel("13"))
+                .isInstanceOf(UserNotFoundException.class);
     }
+
 
     private UserEntityRepository inMemoryUsersRepository() {
         return new UserEntityRepository() {

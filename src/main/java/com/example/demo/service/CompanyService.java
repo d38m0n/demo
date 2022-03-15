@@ -5,6 +5,7 @@ import com.example.demo.entity.EvidenceEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.CompanyReadModel;
 import com.example.demo.model.CompanyUpdateModel;
+import com.example.demo.model.UserReadModel;
 import com.example.demo.repository.CompanyEntityRepository;
 
 import org.springframework.stereotype.Service;
@@ -15,12 +16,14 @@ import java.util.stream.Collectors;
 @Service
 public class CompanyService {
     private EvidenceService evidenceService;
+    private UserService userServ;
     private CompanyEntityRepository companyRep;
 
     public CompanyService(EvidenceService evidenceService,
-                          CompanyEntityRepository companyRep) {
+                          CompanyEntityRepository companyRep, UserService userServ) {
         this.evidenceService = evidenceService;
         this.companyRep = companyRep;
+        this.userServ = userServ;
     }
 
     public CompanyEntity addCompany(CompanyEntity ce) {
@@ -30,6 +33,17 @@ public class CompanyService {
 
         ce.setEvidence_id(addEvidence);
         return companyRep.save(ce);
+    }
+
+    public CompanyEntity addUserToCompany(String idUser, CompanyEntity source) {
+        UserEntity userEntity = userServ.findUserByIdEntity(idUser);
+
+        CompanyEntity companyEntity = companyRep.findById(source.getId())
+                .orElseThrow(IllegalArgumentException::new);// to change
+
+        companyEntity.addUserToCompany(userEntity);
+
+        return companyRep.save(companyEntity);
     }
 
     public List<CompanyReadModel> getAllCompanies() {
@@ -46,7 +60,7 @@ public class CompanyService {
                     .orElseThrow(() -> new IllegalArgumentException("Not found this id"))
                     .updateFrom(source);
             companyRep.save(companyUpdate);
-        }else {
+        } else {
             throw new IllegalArgumentException("Not found id in body ");
         }
     }

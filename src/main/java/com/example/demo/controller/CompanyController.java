@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +29,17 @@ public class CompanyController {
     ResponseEntity<?> addNewCompany(@RequestBody CompanyEntity source) {
         logger.warn("Add Company");
         companySer.addCompany(source);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+
+    @RequestMapping(
+            method = RequestMethod.POST,
+            path = "/companies/{idUser}")
+    ResponseEntity<?> addUserToCompany(@PathVariable String idUser, @RequestBody CompanyEntity source) {
+        logger.warn("Add user to company");
+        companySer.addUserToCompany(idUser ,source);
         return ResponseEntity
                 .ok()
                 .build();

@@ -53,7 +53,7 @@ public class UserController {
             path = "/user/{idUser}"
     )
     ResponseEntity<?> findUserById(@PathVariable String idUser) {
-        return ResponseEntity.ok(userService.findUserById(idUser));
+        return ResponseEntity.ok(userService.findUserByIdModel(idUser));
     }
 
     @RequestMapping(
