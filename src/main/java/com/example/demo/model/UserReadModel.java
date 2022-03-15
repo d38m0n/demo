@@ -1,11 +1,10 @@
 package com.example.demo.model;
 
-import com.example.demo.entity.EvidenceEntity;
+
 import com.example.demo.entity.UserEntity;
 
 
 public class UserReadModel {
-    private String company_id;
     private String login;
     private String email;
     private boolean isActive;
@@ -20,14 +19,6 @@ public class UserReadModel {
         this.isActive = source.isActive();
         this.login = source.getLogin();
         this.evidence_id = source.getEvidence_id().getId();
-    }
-
-    public String getCompany_id() {
-        return company_id;
-    }
-
-    public void setCompany_id(String company_id) {
-        this.company_id = company_id;
     }
 
     public String getLogin() {

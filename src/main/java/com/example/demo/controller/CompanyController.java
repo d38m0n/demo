@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.CompanyEntity;
 
-import com.example.demo.model.CompanyReadModel;
 import com.example.demo.model.CompanyUpdateModel;
 import com.example.demo.service.CompanyService;
 import org.slf4j.Logger;
@@ -37,9 +36,21 @@ public class CompanyController {
     @RequestMapping(
             method = RequestMethod.POST,
             path = "/companies/{idUser}")
-    ResponseEntity<?> addUserToCompany(@PathVariable String idUser, @RequestBody CompanyEntity source) {
+    ResponseEntity<?> addUserToCompany(@PathVariable String idUser,
+                                       @RequestBody CompanyEntity source) {
         logger.warn("Add user to company");
         companySer.addUserToCompany(idUser ,source);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            path = "/companies/{idUser}")
+    ResponseEntity<?> deleteUserWithCompany(@PathVariable String idUser,
+                                       @RequestBody CompanyEntity source) {
+        logger.warn("Delete user with company");
+        companySer.deletedUserWithCompany(idUser ,source);
         return ResponseEntity
                 .ok()
                 .build();

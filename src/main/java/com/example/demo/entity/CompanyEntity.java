@@ -2,8 +2,6 @@ package com.example.demo.entity;
 
 
 import com.example.demo.model.CompanyUpdateModel;
-import com.example.demo.service.UserService;
-import org.apache.tomcat.util.buf.UEncoder;
 
 import javax.persistence.*;
 import java.util.Set;

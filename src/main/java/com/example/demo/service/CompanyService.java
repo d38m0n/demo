@@ -57,11 +57,21 @@ public class CompanyService {
     public void updateCompanyById(CompanyUpdateModel source) {
         if (source.getId() != null) {
             CompanyEntity companyUpdate = companyRep.findById(source.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Not found this id"))
+                    .orElseThrow(() -> new IllegalArgumentException("Not found this id")) // to change
                     .updateFrom(source);
             companyRep.save(companyUpdate);
         } else {
             throw new IllegalArgumentException("Not found id in body ");
         }
+    }
+
+    public void deletedUserWithCompany(String idUser, CompanyEntity source) {
+        UserEntity userFound = userServ.findUserByIdEntity(idUser);
+        CompanyEntity company = companyRep.findById(source.getId())
+                .orElseThrow(IllegalAccessError::new);// to change
+
+        company.deleteUserWithCompany(userFound);
+        companyRep.save(company);
+
     }
 }

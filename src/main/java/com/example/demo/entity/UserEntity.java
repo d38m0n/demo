@@ -11,7 +11,6 @@ public class UserEntity extends BaseEditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-
     private String login;
     private String psw;
     private String email;
