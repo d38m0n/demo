@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.CompanyEntity;
 import com.example.demo.entity.EvidenceEntity;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.exception.error.CompanyNotFoundException;
 import com.example.demo.model.CompanyReadModel;
 import com.example.demo.model.CompanyUpdateModel;
 import com.example.demo.model.UserReadModel;
@@ -39,7 +40,7 @@ public class CompanyService {
         UserEntity userEntity = userServ.findUserByIdEntity(idUser);
 
         CompanyEntity companyEntity = companyRep.findById(source.getId())
-                .orElseThrow(IllegalArgumentException::new);// to change
+                .orElseThrow(CompanyNotFoundException::new);
 
         companyEntity.addUserToCompany(userEntity);
 
@@ -57,18 +58,18 @@ public class CompanyService {
     public void updateCompanyById(CompanyUpdateModel source) {
         if (source.getId() != null) {
             CompanyEntity companyUpdate = companyRep.findById(source.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Not found this id")) // to change
+                    .orElseThrow(CompanyNotFoundException::new)
                     .updateFrom(source);
             companyRep.save(companyUpdate);
         } else {
-            throw new IllegalArgumentException("Not found id in body ");
+            throw new CompanyNotFoundException();
         }
     }
 
     public void deletedUserWithCompany(String idUser, CompanyEntity source) {
         UserEntity userFound = userServ.findUserByIdEntity(idUser);
         CompanyEntity company = companyRep.findById(source.getId())
-                .orElseThrow(IllegalAccessError::new);// to change
+                .orElseThrow(IllegalAccessError::new);
 
         company.deleteUserWithCompany(userFound);
         companyRep.save(company);

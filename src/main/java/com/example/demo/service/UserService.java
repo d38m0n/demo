@@ -43,7 +43,6 @@ public class UserService {
     }
 
     public void changPassword(UserUpdateModel source) {
-
         UserEntity user = userRepo.findByLogin(source.getLogin())
                 .orElseThrow(() -> new UserNotFoundException(source.getLogin()));
         if (isMatchesPassword(source, user)) {
@@ -52,7 +51,6 @@ public class UserService {
         } else {
             throw new UserNotAuthorizationException(source.getId());
         }
-
     }
 
     private boolean isMatchesPassword(UserUpdateModel source, UserEntity userEntity) {
@@ -61,9 +59,7 @@ public class UserService {
                     .orElseThrow(() -> new UserLoginExistException("Login"));
             userAuthorization.addAuthorizationDate(logbookRepo.save(new LogbookEntity()));
             userRepo.save(userAuthorization);
-
         }
-
         return encoder.matches(source.getPsw(), userEntity.getPsw());
     }
 
