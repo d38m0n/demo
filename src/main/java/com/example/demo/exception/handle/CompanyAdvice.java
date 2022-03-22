@@ -1,6 +1,7 @@
 package com.example.demo.exception.handle;
 
-import com.example.demo.exception.error.EvidenceNotFoundException;
+import com.example.demo.exception.error.CompanyNotFoundException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class CompanyAdvice {
 
     @ResponseBody
-    @ExceptionHandler(ClassNotFoundException.class)
+    @ExceptionHandler(CompanyNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String evidenceNotFoundHandler(EvidenceNotFoundException ex) {
+    public String evidenceNotFoundHandler(CompanyNotFoundException ex) {
         return ex.getMessage();
     }
 }
