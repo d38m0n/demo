@@ -19,6 +19,19 @@ public class CompanyEntity extends BaseEditEntity {
     @JoinColumn(name = "company_id")
     private Set<UserEntity> users;
 
+//    @OneToMany(cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "company_id")
+//    private Set<ClientEntity> clients;
+
+//    @ManyToMany
+//    @JoinTable(name = "companies-items",
+//            joinColumns = @JoinColumn(name = "company_id",
+//                    referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "item_id",
+//                    referencedColumnName = "id"))
+//    private Set<ItemEntity> items;
+
+
 
     public CompanyEntity() {
     }
