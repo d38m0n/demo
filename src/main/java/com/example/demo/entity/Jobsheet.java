@@ -24,8 +24,6 @@ public class Jobsheet {
     @JoinColumn(name = "jobsheet_id")
     private Set<ItemEntity> items;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "jobsheet_id")
-    private Set<ClientEntity> clients;
+
 
 }

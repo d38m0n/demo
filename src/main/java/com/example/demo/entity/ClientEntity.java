@@ -5,7 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "clients")
-public class ClientEntity extends BaseEditEntity{
+public class ClientEntity extends BaseEditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
@@ -20,4 +20,9 @@ public class ClientEntity extends BaseEditEntity{
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "client_id")
     private Set<OrderEntity> orders;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "client_id")
+    private Set<Jobsheet> jobsheets;
+
 }
