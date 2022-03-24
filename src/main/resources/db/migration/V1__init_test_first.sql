@@ -58,11 +58,13 @@ TIME_DRIVE varchar (255),
 DISTANCE varchar (255),
 PROJECT_NUMBER varchar (255),
 USER_ID varchar (255),
+JOBSHEET_ID varchar (255),
 STATUS varchar (255)
 );
 DROP table if exists clients;
 CREATE TABLE clients(
 ID varchar  primary key auto_increment,
+CLIENT_ID varchar (255),
 EVIDENCE_ID varchar (255),
 DESCRIPTION_1 varchar (255),
 DESCRIPTION_2 varchar (255),
@@ -70,9 +72,11 @@ IS_ACTIVE bit
 );DROP table if exists orders;
 CREATE TABLE orders(
 ID varchar  primary key auto_increment,
+ORDER_ID varchar (255),
 CREATED_ON varchar (255),
 UPDATED_ON varchar (255),
 CLOSED_ON varchar (255),
 STATUS varchar (255),
 DESCRIPTION varchar (255)
 );
+

@@ -19,9 +19,9 @@ public class UserEntity extends BaseEditEntity {
     @JoinColumn(name = "user_id")
     private Set<LogbookEntity> logbook;
 
-//    @OneToMany(cascade = CascadeType.PERSIST)
-//    @JoinColumn(name = "user_id")
-//    private Set<OrderEntity> orders;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id")
+    private Set<OrderEntity> orders;
 
     public UserEntity() {
     }

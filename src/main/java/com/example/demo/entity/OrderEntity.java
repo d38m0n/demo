@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -15,14 +16,9 @@ public class OrderEntity {
     private String status;
     private String description;
 
-//    @ManyToMany
-//    @JoinTable(name = "orders-items",
-//            joinColumns = @JoinColumn(name = "order_id",
-//                    referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "item_id",
-//                    referencedColumnName = "id"))
-//    private Set<ItemEntity> items;
-
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "order_id")
+    private Set<ItemEntity> items;
 
 
 }
