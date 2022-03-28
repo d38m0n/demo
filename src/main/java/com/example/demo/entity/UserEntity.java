@@ -15,11 +15,13 @@ public class UserEntity extends BaseEditEntity {
     private String psw;
     private String email;
     private boolean isActive;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Set<LogbookEntity> logbook;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Set<OrderEntity> orders;
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Controller
 public class UserController {
@@ -60,10 +61,9 @@ public class UserController {
             method = RequestMethod.GET,
             path = "/users",
             params = {"!sort", "!page", "!size"})
-    ResponseEntity<List<UserReadModel>> getAllUsers() {
+    CompletableFuture<ResponseEntity<List<UserReadModel>>> getAllUsers() {
         logger.warn("Exposing all USERS !! !! !!");
-        return ResponseEntity
-                .ok(userService.findAllUsers());
+        return userService.findAllUsersAsync().thenApply(ResponseEntity::ok);
     }
 
     @RequestMapping(

@@ -13,15 +13,15 @@ public class ClientEntity extends BaseEditEntity {
     private String description2;
     private boolean isActive;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Set<ItemEntity> items;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Set<OrderEntity> orders;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Set<Jobsheet> jobsheets;
 

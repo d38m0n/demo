@@ -16,7 +16,8 @@ public class OrderEntity {
     private String status;
     private String description;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Set<ItemEntity> items;
 

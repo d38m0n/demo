@@ -15,15 +15,18 @@ public class CompanyEntity extends BaseEditEntity {
     private String name;
     private String status;
     private String description;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Set<UserEntity> users;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Set<ClientEntity> clients;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Set<ItemEntity> items;
 

@@ -20,7 +20,8 @@ public class Jobsheet {
     private String status;
     private String userId;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "jobsheet_id")
     private Set<ItemEntity> items;
 

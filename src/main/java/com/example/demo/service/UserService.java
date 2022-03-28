@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.controller.LoggerFilterUser;
 import com.example.demo.entity.LogbookEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.error.UserLoginExistException;
@@ -10,16 +11,21 @@ import com.example.demo.model.UserUpdateModel;
 import com.example.demo.model.UserWriteModel;
 import com.example.demo.repository.LogbookEntityRepository;
 import com.example.demo.repository.UserEntityRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
+    public static final Logger loger = LoggerFactory.getLogger(UserService.class);
     private UserEntityRepository userRepo;
     private LogbookEntityRepository logbookRepo;
     private EvidenceService evidenceService;
@@ -55,7 +61,7 @@ public class UserService {
 
     private boolean isMatchesPassword(UserUpdateModel source, UserEntity userEntity) {
         if (encoder.matches(source.getPsw(), userEntity.getPsw())) {
-            UserEntity userAuthorization= userRepo.findByLogin(userEntity.getLogin())
+            UserEntity userAuthorization = userRepo.findByLogin(userEntity.getLogin())
                     .orElseThrow(() -> new UserLoginExistException("Login"));
             userAuthorization.addAuthorizationDate(logbookRepo.save(new LogbookEntity()));
             userRepo.save(userAuthorization);
@@ -68,15 +74,24 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(idUser));
         return new UserReadModel(userEntity);
     }
-     UserEntity findUserByIdEntity(String idUser) {
-      return userRepo.findById(idUser)
+
+    UserEntity findUserByIdEntity(String idUser) {
+        return userRepo.findById(idUser)
                 .orElseThrow(() -> new UserNotFoundException(idUser));
     }
 
-    public List<UserReadModel> findAllUsers() {
-        return userRepo.findAll().stream()
+//    public List<UserReadModel> findAllUsers() {
+//        return userRepo.findAll().stream()
+//                .map(UserReadModel::new)
+//                .collect(Collectors.toList());
+//    }
+
+    @Async
+    public CompletableFuture<List<UserReadModel>> findAllUsersAsync() {
+        loger.info("async");
+        return CompletableFuture.supplyAsync(() -> userRepo.findAll().stream()
                 .map(UserReadModel::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
     public List<UserReadModel> findAllBySortedUsers(Pageable pageable) {

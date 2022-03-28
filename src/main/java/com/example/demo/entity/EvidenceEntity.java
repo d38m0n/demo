@@ -24,11 +24,13 @@ public class EvidenceEntity  {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private  UserEntity user;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private CompanyEntity company;
 
