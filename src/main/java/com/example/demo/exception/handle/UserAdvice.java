@@ -19,7 +19,7 @@ public class UserAdvice {
     @ResponseBody
     @ExceptionHandler(UserLoginExistException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String userNotFoundHandler(UserLoginExistException ex) {
+    public String userConflictLoginHandler(UserLoginExistException ex) {
         return ex.getMessage();
     }
 

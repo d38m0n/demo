@@ -6,7 +6,6 @@ import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.error.CompanyNotFoundException;
 import com.example.demo.model.CompanyReadModel;
 import com.example.demo.model.CompanyUpdateModel;
-import com.example.demo.model.UserReadModel;
 import com.example.demo.repository.CompanyEntityRepository;
 
 import org.springframework.stereotype.Service;

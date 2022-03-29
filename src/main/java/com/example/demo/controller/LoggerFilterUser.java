@@ -22,9 +22,11 @@ public class LoggerFilterUser implements Filter {
 
         if (servletRequest instanceof HttpServletRequest) {
             var httpRequest = (HttpServletRequest) servletRequest;
-            loger.info("[doFilter] " + httpRequest.getMethod() + " " + httpRequest.getRequestURI());
+            if (httpRequest.getRequestURI().contains("/users")) {
+                loger.info("[doFilter] " + httpRequest.getMethod() + " " + httpRequest.getRequestURI() + " User request");
+            }
         }
-        filterChain.doFilter(servletRequest,servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
 
 
     }
