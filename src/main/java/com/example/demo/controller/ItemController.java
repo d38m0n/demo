@@ -46,7 +46,17 @@ public class ItemController {
             method = RequestMethod.GET,
             path = "/items/{idItem}")
     ResponseEntity<?> findItemById(@PathVariable String idItem) {
-        return ResponseEntity.ok(itemService.getItemById(idItem));
+        return ResponseEntity
+                .ok(itemService.getItemModelById(idItem));
+    }
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            path = "/items/{idItem}")
+    ResponseEntity<?> deleteItemById(@PathVariable String idItem) {
+        itemService.deleteItemById(idItem);
+        return ResponseEntity
+                .ok()
+                .build();
     }
 
 }
