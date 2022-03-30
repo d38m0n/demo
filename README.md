@@ -11,4 +11,7 @@ I will try use:
   - Thymeleaf
   - AOP
   - Spring Security
+  - HTML CSS3
+  - JavaScript 
+  - AJAX
 
