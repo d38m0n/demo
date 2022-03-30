@@ -1,29 +1,26 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
-import javax.persistence.*;
+import com.example.demo.entity.EvidenceEntity;
+import com.example.demo.entity.ItemEntity;
+import com.example.demo.entity.Jobsheet;
+import com.example.demo.entity.OrderEntity;
+import org.modelmapper.ModelMapper;
+
 import java.util.Set;
 
-@Entity
-@Table(name = "clients")
-public class ClientEntity extends BaseEditEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+public class ClientReadModel {
     private String description1;
     private String description2;
     private boolean isActive;
-
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
+    private EvidenceEntity evidence_id;
     private Set<ItemEntity> items;
-
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
     private Set<OrderEntity> orders;
-
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
     private Set<Jobsheet> jobsheets;
+    private ModelMapper mapper;
+
+    public ClientReadModel() {
+
+    }
 
     public String getDescription1() {
         return description1;
@@ -47,6 +44,15 @@ public class ClientEntity extends BaseEditEntity {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public EvidenceReadModel getEvidence_id() {
+        mapper = new ModelMapper();
+        return mapper.map(evidence_id, EvidenceReadModel.class);
+    }
+
+    public void setEvidence_id(EvidenceEntity evidence_id) {
+        this.evidence_id = evidence_id;
     }
 
     public Set<ItemEntity> getItems() {

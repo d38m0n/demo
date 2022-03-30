@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.entity.CompanyEntity;
 import com.example.demo.entity.EvidenceEntity;
-import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.error.CompanyNotFoundException;
 import com.example.demo.model.CompanyReadModel;
 import com.example.demo.model.CompanyUpdateModel;
@@ -17,33 +16,49 @@ import java.util.stream.Collectors;
 public class CompanyService {
     private EvidenceService evidenceService;
     private UserService userServ;
+    private ClientService clientSer;
+    private ItemService itemSer;
     private CompanyEntityRepository companyRep;
 
     public CompanyService(EvidenceService evidenceService,
-                          CompanyEntityRepository companyRep, UserService userServ) {
+                          CompanyEntityRepository companyRep,
+                          UserService userServ,
+                          ClientService clientSer,
+                          ItemService itemSer) {
         this.evidenceService = evidenceService;
         this.companyRep = companyRep;
         this.userServ = userServ;
+        this.clientSer = clientSer;
+        this.itemSer = itemSer;
     }
 
     public CompanyEntity addCompany(CompanyEntity ce) {
 
         EvidenceEntity addEvidence = evidenceService
                 .addNewEvidenceEntityForCompany(ce.getEvidence_id());
-
         ce.setEvidence_id(addEvidence);
         return companyRep.save(ce);
     }
 
-    public CompanyEntity addUserToCompany(String idUser, CompanyEntity source) {
-        UserEntity userEntity = userServ.findUserByIdEntity(idUser);
+    public CompanyEntity addClientToCompany(String idClient, String idCompany) {
+        return companyRep.save(
+                companyRep.findById(idCompany)
+                        .orElseThrow(CompanyNotFoundException::new)
+                        .addClientToCompany(clientSer.getClientById(idClient)));
+    }
 
-        CompanyEntity companyEntity = companyRep.findById(source.getId())
-                .orElseThrow(CompanyNotFoundException::new);
+    public CompanyEntity addUserToCompany(String idUser, String idCompany) {
+        return companyRep.save(
+                companyRep.findById(idCompany)
+                        .orElseThrow(CompanyNotFoundException::new)
+                        .addUserToCompany(userServ.findUserByIdEntity(idUser)));
+    }
 
-        companyEntity.addUserToCompany(userEntity);
-
-        return companyRep.save(companyEntity);
+    public CompanyEntity addItemToCompany(String idItem, String idCompany) {
+        return companyRep.save(
+                companyRep.findById(idCompany)
+                        .orElseThrow(CompanyNotFoundException::new)
+                        .addItemToCompany(itemSer.getItemEntityById(idItem)));
     }
 
     public List<CompanyReadModel> getAllCompanies() {
@@ -65,13 +80,26 @@ public class CompanyService {
         }
     }
 
-    public void deletedUserWithCompany(String idUser, CompanyEntity source) {
-        UserEntity userFound = userServ.findUserByIdEntity(idUser);
-        CompanyEntity company = companyRep.findById(source.getId())
-                .orElseThrow(IllegalAccessError::new);
+    public void deletedUserWithCompany(String idUser,  String idCompany) {
+        companyRep.save(
+                companyRep.findById(idCompany)
+                        .orElseThrow(CompanyNotFoundException::new)
+                        .deleteUserWithCompany(userServ.findUserByIdEntity(idUser)));
 
-        company.deleteUserWithCompany(userFound);
-        companyRep.save(company);
+    }
 
+    public void deletedItemWithCompany(String idItem, String idCompany) {
+        companyRep.save(
+                companyRep.findById(idCompany)
+                        .orElseThrow(CompanyNotFoundException::new)
+                        .deleteItemWithCompany(itemSer.getItemEntityById(idItem)));
+
+    }
+
+    public void deletedClientWithCompany(String idClient, String idCompany) {
+        companyRep.save(
+                companyRep.findById(idCompany)
+                        .orElseThrow(CompanyNotFoundException::new)
+                        .deleteClientWithCompany(clientSer.getClientById(idClient)));
     }
 }

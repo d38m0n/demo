@@ -10,6 +10,10 @@ public class EvidenceReadModel {
     private String nip;
     private String brand;
 
+    public EvidenceReadModel() {
+
+    }
+
     public EvidenceReadModel(EvidenceEntity source) {
         this.name = source.getName();
         this.sureName = source.getSureName();

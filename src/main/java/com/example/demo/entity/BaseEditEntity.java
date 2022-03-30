@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import com.example.demo.model.EvidenceReadModel;
+import org.modelmapper.ModelMapper;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -19,6 +22,7 @@ public abstract class BaseEditEntity {
     public EvidenceEntity getEvidence_id() {
         return evidence_id;
     }
+
 
     public void setEvidence_id(EvidenceEntity evidence_id) {
         this.evidence_id = evidence_id;

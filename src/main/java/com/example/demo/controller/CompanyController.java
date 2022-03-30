@@ -35,22 +35,70 @@ public class CompanyController {
 
     @RequestMapping(
             method = RequestMethod.POST,
-            path = "/companies/{idUser}")
-    ResponseEntity<?> addUserToCompany(@PathVariable String idUser,
-                                       @RequestBody CompanyEntity source) {
+            path = "/companies/user/{idCompany}/{idUser}")
+    ResponseEntity<?> addUserToCompany(@PathVariable String idCompany,
+                                       @PathVariable String idUser) {
         logger.warn("Add user to company");
-        companySer.addUserToCompany(idUser ,source);
+        companySer.addUserToCompany(idUser, idCompany);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+
+    @RequestMapping(
+            method = RequestMethod.POST,
+            path = "/companies/item/{idCompany}/{idItem}")
+    ResponseEntity<?> addItemToCompany(@PathVariable String idCompany,
+                                       @PathVariable String idItem) {
+        logger.warn("Add item to company");
+        companySer.addItemToCompany(idItem, idCompany);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+
+    @RequestMapping(
+            method = RequestMethod.POST,
+            path = "/companies/client/{idCompany}/{idClient}")
+    ResponseEntity<?> addClientToCompany(@PathVariable String idCompany,
+                                       @PathVariable String idClient) {
+        logger.warn("Add item to client");
+        companySer.addClientToCompany(idClient, idCompany);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            path = "/companies/client/{idCompany}/{idClient}")
+    ResponseEntity<?> deleteClientWithCompany(@PathVariable String idCompany
+            , @PathVariable String idClient) {
+        logger.warn("Delete client with company");
+        companySer.deletedClientWithCompany(idClient, idCompany);
         return ResponseEntity
                 .ok()
                 .build();
     }
     @RequestMapping(
             method = RequestMethod.DELETE,
-            path = "/companies/{idUser}")
-    ResponseEntity<?> deleteUserWithCompany(@PathVariable String idUser,
-                                       @RequestBody CompanyEntity source) {
+            path = "/companies/user/{idCompany}/{idUser}")
+    ResponseEntity<?> deleteUserWithCompany(@PathVariable String idCompany
+            , @PathVariable String idUser) {
         logger.warn("Delete user with company");
-        companySer.deletedUserWithCompany(idUser ,source);
+        companySer.deletedUserWithCompany(idUser, idCompany);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            path = "/companies/item/{idCompany}/{idItem}")
+    ResponseEntity<?> deleteItemWithCompany(@PathVariable String idCompany,
+                                            @PathVariable String idItem) {
+        logger.warn("Delete item with company");
+        companySer.deletedItemWithCompany(idItem, idCompany);
         return ResponseEntity
                 .ok()
                 .build();
@@ -69,7 +117,7 @@ public class CompanyController {
             method = RequestMethod.PATCH,
             path = "/companies")
     ResponseEntity<?> getAllCompanies(@RequestBody CompanyUpdateModel source) {
-        logger.warn("Update company" );
+        logger.warn("Update company");
         companySer.updateCompanyById(source);
         return ResponseEntity
                 .ok()

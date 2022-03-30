@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
-
 import com.example.demo.entity.UserEntity;
-
 
 public class UserReadModel {
     private String login;

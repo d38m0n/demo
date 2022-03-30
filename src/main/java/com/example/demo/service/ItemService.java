@@ -32,12 +32,23 @@ public class ItemService {
         }
     }
 
+
     public List<ItemEntity> getAllItems() {
         return itemRepository.findAll();
     }
 
-    public ItemReadModel getItemById(String id) {
+    public ItemReadModel getItemModelById(String id) {
         return modelMapper.map(itemRepository.findById(id)
                 .orElseThrow(ItemNotFoundIdException::new), ItemReadModel.class);
+    }
+
+    public ItemEntity getItemEntityById(String id) {
+        return itemRepository.findById(id)
+                .orElseThrow(ItemNotFoundIdException::new);
+    }
+
+    public void deleteItemById(String idItem) {
+        if(!itemRepository.existsById(idItem)) throw new ItemNotFoundIdException();
+        itemRepository.deleteById(idItem);
     }
 }

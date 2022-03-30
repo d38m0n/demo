@@ -8,10 +8,12 @@ public class CompanyReadModel {
     private String status;
     private String description;
 
+
     public CompanyReadModel(CompanyEntity source) {
         this.name = source.getName();
         this.status = source.getStatus();
         this.description = source.getDescription();
+
     }
 
     public String getName() {

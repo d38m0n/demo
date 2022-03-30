@@ -13,14 +13,21 @@ public class ItemAdvice {
     @ResponseBody
     @ExceptionHandler(ItemSNRequiredException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String itemNotFoundSerialNumberInSource(ItemSNRequiredException ex) {
+    public String itemNotFoundSerialNumberInSourceHandler(ItemSNRequiredException ex) {
         return ex.getMessage();
     }
 
     @ResponseBody
     @ExceptionHandler(ItemSNExistException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String itemSNisExistInDataBase(ItemSNExistException ex) {
+    public String itemSNisExistInDataBaseHandler(ItemSNExistException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ItemNotFoundIdException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String itemNotFoundIdExceptionHandler(ItemNotFoundIdException ex) {
         return ex.getMessage();
     }
 

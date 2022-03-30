@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface ItemEntityRepository {
     boolean existsBySn(String serialNumber);
+    boolean existsById(String id);
+    void deleteById(String id);
 
     ItemEntity save(ItemEntity itemEntity);
 

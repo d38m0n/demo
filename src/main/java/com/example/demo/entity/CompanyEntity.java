@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 
+import com.example.demo.model.ClientReadModel;
 import com.example.demo.model.CompanyUpdateModel;
 
 import javax.persistence.*;
@@ -31,7 +32,6 @@ public class CompanyEntity extends BaseEditEntity {
     private Set<ItemEntity> items;
 
 
-
     public CompanyEntity() {
     }
 
@@ -39,8 +39,32 @@ public class CompanyEntity extends BaseEditEntity {
         return id;
     }
 
-    public void addUserToCompany(UserEntity source) {
-        this.users.add(source);
+    public CompanyEntity addClientToCompany(ClientEntity source) {
+        clients.add(source);
+        return this;
+
+    }
+
+    public CompanyEntity addUserToCompany(UserEntity source) {
+        users.add(source);
+        return this;
+    }
+
+    public CompanyEntity addItemToCompany(ItemEntity source) {
+        this.items.add(source);
+        return this;
+    }
+
+    public CompanyEntity deleteClientWithCompany(ClientEntity source) {
+        this.clients.remove(source);
+        return this;
+
+    }
+
+    public CompanyEntity deleteItemWithCompany(ItemEntity source) {
+        this.items.remove(source);
+        return this;
+
     }
 
     public CompanyEntity deleteUserWithCompany(UserEntity source) {
@@ -72,6 +96,9 @@ public class CompanyEntity extends BaseEditEntity {
         this.description = description_2;
     }
 
+    public Set<UserEntity> getUsers() {
+        return users;
+    }
 
     public CompanyEntity updateFrom(final CompanyUpdateModel store) {
         this.description = store.getDescription();
@@ -79,5 +106,4 @@ public class CompanyEntity extends BaseEditEntity {
         this.status = store.getStatus();
         return this;
     }
-
 }
