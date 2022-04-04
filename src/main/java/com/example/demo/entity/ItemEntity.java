@@ -17,6 +17,9 @@ public class ItemEntity {
     private String description;
     private boolean isUsed;
 
+    public ItemEntity() {
+    }
+
     public String getId() {
         return id;
     }

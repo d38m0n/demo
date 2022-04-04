@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 import com.example.demo.entity.EvidenceEntity;
 import com.example.demo.entity.ItemEntity;
-import com.example.demo.entity.Jobsheet;
+import com.example.demo.entity.JobsheetEntity;
 import com.example.demo.entity.OrderEntity;
 import org.modelmapper.ModelMapper;
 
@@ -15,7 +15,7 @@ public class ClientReadModel {
     private EvidenceEntity evidence_id;
     private Set<ItemEntity> items;
     private Set<OrderEntity> orders;
-    private Set<Jobsheet> jobsheets;
+    private Set<JobsheetEntity> jobsheets;
     private ModelMapper mapper;
 
     public ClientReadModel() {
@@ -71,11 +71,11 @@ public class ClientReadModel {
         this.orders = orders;
     }
 
-    public Set<Jobsheet> getJobsheets() {
+    public Set<JobsheetEntity> getJobsheets() {
         return jobsheets;
     }
 
-    public void setJobsheets(Set<Jobsheet> jobsheets) {
+    public void setJobsheets(Set<JobsheetEntity> jobsheets) {
         this.jobsheets = jobsheets;
     }
 }

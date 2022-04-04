@@ -15,11 +15,10 @@ import java.util.List;
 @Service
 public class ItemService {
     private ItemEntityRepository itemRepository;
-    private ModelMapper modelMapper;
+
 
     public ItemService(ItemEntityRepository itemRepository) {
         this.itemRepository = itemRepository;
-        this.modelMapper = new ModelMapper();
     }
 
     public void addNewItemEntity(ItemEntity source) {
@@ -38,8 +37,9 @@ public class ItemService {
     }
 
     public ItemReadModel getItemModelById(String id) {
-        return modelMapper.map(itemRepository.findById(id)
-                .orElseThrow(ItemNotFoundIdException::new), ItemReadModel.class);
+        ModelMapper modelMapper = new ModelMapper();
+        ItemEntity itemEntity = getItemEntityById(id);
+        return modelMapper.map(itemEntity, ItemReadModel.class);
     }
 
     public ItemEntity getItemEntityById(String id) {

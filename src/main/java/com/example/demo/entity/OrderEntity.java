@@ -21,5 +21,69 @@ public class OrderEntity {
     @JoinColumn(name = "order_id")
     private Set<ItemEntity> items;
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
+    public LocalDateTime getClosedOn() {
+        return closedOn;
+    }
+
+    public void setClosedOn(LocalDateTime closedOn) {
+        this.closedOn = closedOn;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<ItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<ItemEntity> items) {
+        this.items = items;
+    }
+
+    public OrderEntity addItem(ItemEntity itemEntity) {
+        this.items.add(itemEntity);
+        return this;
+    }
+
+    public OrderEntity deleteItem(ItemEntity itemEntity) {
+        this.items.remove(itemEntity);
+        return this;
+    }
 }

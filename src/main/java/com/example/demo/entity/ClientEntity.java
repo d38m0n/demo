@@ -23,7 +23,7 @@ public class ClientEntity extends BaseEditEntity {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
-    private Set<Jobsheet> jobsheets;
+    private Set<JobsheetEntity> jobsheets;
 
     public String getDescription1() {
         return description1;
@@ -65,11 +65,11 @@ public class ClientEntity extends BaseEditEntity {
         this.orders = orders;
     }
 
-    public Set<Jobsheet> getJobsheets() {
+    public Set<JobsheetEntity> getJobsheets() {
         return jobsheets;
     }
 
-    public void setJobsheets(Set<Jobsheet> jobsheets) {
+    public void setJobsheets(Set<JobsheetEntity> jobsheets) {
         this.jobsheets = jobsheets;
     }
 }

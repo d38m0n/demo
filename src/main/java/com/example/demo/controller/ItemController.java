@@ -44,7 +44,7 @@ public class ItemController {
 
     @RequestMapping(
             method = RequestMethod.GET,
-            path = "/items/{idItem}")
+            path = "/item/{idItem}")
     ResponseEntity<?> findItemById(@PathVariable String idItem) {
         return ResponseEntity
                 .ok(itemService.getItemModelById(idItem));
