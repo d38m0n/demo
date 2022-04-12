@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="../static/global.css" th:href="@{global.css}">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+
+</head>
+<body>
+
+<fieldset class="container">
+    <legend>Data admin</legend>
+    <div class="item">
+        <label>
+            Login:<span>User</span>
+        </label>
+    </div>
+    <div class="item">
+        <label>
+            Company:<span>D38m0n</span>
+        </label>
+
+    </div>
+    <div class="item">
+        <label>
+            Last log:<span>12.04.2022</span>
+        </label>
+    </div>
+</fieldset>
+
+<fieldset class="container">
+    <legend>Add new user</legend>
+
+    <form action="#" method="post" th:action="@{/admin}" th:object="${user}">
+        <label>Login
+            <input type="text" th:field="*{login}" required>
+        </label>
+        <label>Password
+            <input type="password" th:field="*{psw}" required>
+        </label>
+        <label>E-mail
+            <input type="email" th:field="*{email}" required>
+        </label>
+        <label>PESEL
+            <input type="number" th:field="*{evidence_id.pesel}" required>
+        </label>
+        <button type="submit" name="addUser">SUBMIT</button>
+    </form>
+</fieldset>
+
+</body>
+</html>
