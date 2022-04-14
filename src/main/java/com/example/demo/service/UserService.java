@@ -18,9 +18,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -80,11 +82,14 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(idUser));
     }
 
-//    public List<UserReadModel> findAllUsers() {
-//        return userRepo.findAll().stream()
-//                .map(UserReadModel::new)
-//                .collect(Collectors.toList());
-//    }
+    public List<UserReadModel> findFiveLastAddUsers() {
+        return userRepo.findAll().stream()
+                .sorted(Comparator.comparing(UserEntity::getCreatedOn).reversed())
+                .limit(5)
+                .map(UserReadModel::new)
+                .collect(Collectors.toList());
+
+    }
 
     @Async
     public CompletableFuture<List<UserReadModel>> findAllUsersAsync() {

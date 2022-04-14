@@ -167,4 +167,8 @@ public class EvidenceEntity  {
         this.logoUrl= source.getLogoUrl();
         return this;
     }
+
+    public String getCreatedOn() {
+        return createdOn.toString();
+    }
 }

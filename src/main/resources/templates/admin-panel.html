@@ -28,24 +28,69 @@
     </div>
 </fieldset>
 
-<fieldset class="container">
+<fieldset>
     <legend>Add new user</legend>
 
     <form action="#" method="post" th:action="@{/admin}" th:object="${user}">
-        <label>Login
-            <input type="text" th:field="*{login}" required>
-        </label>
-        <label>Password
-            <input type="password" th:field="*{psw}" required>
-        </label>
-        <label>E-mail
-            <input type="email" th:field="*{email}" required>
-        </label>
-        <label>PESEL
-            <input type="number" th:field="*{evidence_id.pesel}" required>
-        </label>
+        <div class="container">
+            <label><p>Login</p>
+                <input type="text" th:field="*{login}" required>
+            </label>
+            <label><p>Password</p>
+                <input type="password" th:field="*{psw}" required>
+            </label>
+            <label><p>E-mail</p>
+                <input type="email" th:field="*{email}" required>
+            </label>
+            <label>
+                <p>PESEL</p>
+                <input type="number" th:field="*{evidence_id.pesel}" required>
+            </label>
+
+            <label><p>Name</p>
+                <input type="text" th:field="*{evidence_id.name}">
+            </label>
+            <label><p>Surname</p>
+                <input type="text" th:field="*{evidence_id.sureName}">
+            </label>
+            <label><p>Sex</p>
+                <input type="text" th:field="*{evidence_id.sex}">
+            </label>
+            <label><p>Brand</p>
+                <input type="text" th:field="*{evidence_id.brand}">
+            </label>
+
+            <label><p>Country</p>
+                <input type="text" th:field="*{evidence_id.country}">
+            </label>
+            <label><p>City</p>
+                <input type="text" th:field="*{evidence_id.city}">
+            </label>
+            <label><p>Street</p>
+                <input type="text" th:field="*{evidence_id.street}">
+            </label>
+        </div>
         <button type="submit" name="addUser">SUBMIT</button>
     </form>
+</fieldset>
+<fieldset class="lastAddUser">
+    <legend>Last add user</legend>
+
+    <table class="userLastAdd">
+        <thead>
+        <tr>
+            <th>Login</th>
+            <th>E-mail</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.login}"></td>
+            <td th:text="${u.email}"></td>
+        </tr>
+        </tbody>
+        </tr>
+    </table>
 </fieldset>
 
 </body>

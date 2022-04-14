@@ -19,6 +19,10 @@ public abstract class BaseEditEntity {
     public BaseEditEntity() {
     }
 
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
     public EvidenceEntity getEvidence_id() {
         return evidence_id;
     }
