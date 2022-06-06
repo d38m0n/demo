@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" type="text/css" href="../static/global.css" th:href="@{global.css}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel</title>
-
 </head>
 <body>
 
@@ -28,7 +29,7 @@
     </div>
 </fieldset>
 
-<fieldset>
+<fieldset class="addNewUserContainer">
     <legend>Add new user</legend>
 
     <form action="#" method="post" th:action="@{/admin}" th:object="${user}">
@@ -81,12 +82,24 @@
         <tr>
             <th>Login</th>
             <th>E-mail</th>
+            <th>ACTION</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="u : ${users}">
-            <td th:text="${u.login}"></td>
-            <td th:text="${u.email}"></td>
+            <td th:text="${u.login}">Demo</td>
+            <td th:text="${u.email}">Demo</td>
+            <td>
+                <a title="Info" th:href="'/user/' + ${2}">
+                    <i class="material-icons">contact_mail</i>
+                </a>
+                <a title="Setting" th:href="'/user/' + ${2} + '/edit'">
+                    <i class="material-icons">manage_accounts</i>
+                </a>
+                <a title="block" th:href="'/user/' + ${2} +'/deactivate'">
+                    <i class="material-icons">not_interested</i>
+                </a>
+            </td>
         </tr>
         </tbody>
         </tr>
